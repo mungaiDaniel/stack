@@ -24,12 +24,15 @@ class Question(MY_DATABASE):
         self.date_modified = date_modified
 
     def save(self, title, body, user_id, date_created, date_modified):
-        '''method to save a post'''
-        format_str = f"""
-         INSERT INTO public.questions (title,body,user_id,date_created,date_modified)
-         VALUES ('{title}','{body}',{user_id},'{str(datetime.datetime.now().date())}','{str(datetime.datetime.now().date())}') ;
-         """
-        cursor.execute(format_str)
+        # Before executing, print the query for debugging
+        print("Saving question with title:", title)
+        # Make sure the query is correct and does not include any JS code
+        query = """
+            INSERT INTO questions (title, body, user_id, date_created, date_modified)
+            VALUES (%s, %s, %s, %s, %s)
+            RETURNING *;
+        """
+        cursor.execute(query, (title, body, user_id, date_created, date_modified))
         return {
             "title": title,
             "body": body,
