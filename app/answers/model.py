@@ -28,19 +28,14 @@ class Answer(MY_DATABASE):
         self.accept = accept
 
     def save(self, body, question_id, user_id, date_created, date_modified, accept):
-        '''method to save an answer'''
-        format_str = f"""INSERT INTO public.answers (body, question_id, user_id, date_created, date_modified)
-                 VALUES ('{body}', {question_id}, {user_id},' {str(datetime.datetime.now())}', '{str(datetime.datetime.now())}');
-                 """
-        cursor.execute(format_str)
-        return {
-            "body": body,
-            "question_id": question_id,
-            "user_id": user_id,
-            "accept": accept,
-            "date_created": str(date_created),
-            "date_modified": str(date_modified),
-        }
+            cursor = MY_DATABASE.connect_to_db()
+            query = """
+                INSERT INTO answers (body, question_id, user_id, date_created, date_modified, accept)
+                VALUES (%s, %s, %s, %s, %s, %s)
+                RETURNING *;
+            """
+            cursor.execute(query, (body, question_id, user_id, date_created, date_modified, accept))
+            return cursor.fetchone()
         
     def json_dumps(self):
         '''method to return a json object from the answer details'''
