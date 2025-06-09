@@ -1,0 +1,7 @@
+enviro
+__pycache__
+.env
+.coveragerc
+.coverage
+pytest.ini
+.bat
