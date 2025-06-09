@@ -20,7 +20,7 @@ class MY_DATABASE:
         sql_command = """CREATE TABLE IF NOT EXISTS "public"."questions"  (
         id SERIAL ,
         title VARCHAR(255) NOT NULL,
-        body TEXT(100000) NOT NULL,
+        body VARCHAR(100000) NOT NULL,
         user_id INTEGER NOT NULL,
         date_created VARCHAR(80),
         date_modified VARCHAR(80),
@@ -38,7 +38,7 @@ class MY_DATABASE:
         cursor = MY_DATABASE.connect_to_db()
         sql_command = """ CREATE TABLE IF NOT EXISTS "public"."answers"  (
                 id SERIAL ,
-                body TEXT(40000) NOT NULL,
+                body VARCHAR(40000) NOT NULL,
                 question_id INTEGER NOT NULL,
                 user_id INTEGER NOT NULL,            
                 date_created VARCHAR(80),
